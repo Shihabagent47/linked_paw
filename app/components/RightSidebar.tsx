@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { animals } from '@/app/data/animals';
 import { ME } from '@/app/lib/constants';
 
@@ -25,7 +26,9 @@ export default function RightSidebar() {
                 <Image src={animal.photo} alt={animal.name} fill className="object-cover" sizes="48px" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold truncate">{animal.name}</p>
+                <Link href={`/profile/${animal.id}`} className="text-sm font-semibold truncate hover:underline block">
+                  {animal.name}
+                </Link>
                 <p className="text-xs text-gray-500 leading-snug truncate">{animal.title}</p>
                 <p className="text-xs text-gray-400 truncate">{animal.species}</p>
                 <button className="mt-1.5 text-xs font-semibold text-[#0a66c2] border border-[#0a66c2] rounded-full px-3 py-0.5 hover:bg-blue-50 transition-colors">

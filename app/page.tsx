@@ -2,6 +2,8 @@ import Image from 'next/image';
 import LeftSidebar from '@/app/components/LeftSidebar';
 import RightSidebar from '@/app/components/RightSidebar';
 import { ME } from '@/app/lib/constants';
+import PostCard from "@/app/components/PostCard";
+import {posts} from "@/app/data/post";
 
 const COMPOSER_ACTIONS = [
   { emoji: '📸', label: 'Photo' },
@@ -50,16 +52,10 @@ export default function Home() {
               </button>
             </div>
 
-            {/* Feed placeholder */}
-            <div className="bg-white rounded-lg border border-[#e0dfdc] p-12 text-center">
-              <p className="text-5xl mb-4">🐾</p>
-              <p className="text-sm font-semibold text-gray-700">
-                The pack is still writing their thought leadership content.
-              </p>
-              <p className="text-xs text-gray-400 mt-1">
-                The feed awakens in Phase 3. Strategic patience is a skill.
-              </p>
-            </div>
+            {/* Feed */}
+            {[...posts].reverse().map(post => (
+                <PostCard key={post.id} post={post} />
+            ))}
           </div>
 
           <RightSidebar />

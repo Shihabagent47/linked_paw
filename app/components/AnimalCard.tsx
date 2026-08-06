@@ -44,10 +44,10 @@ export default function AnimalCard({ animal }: Props) {
         <div className="mt-4 flex flex-wrap gap-2">
           {animal.skills.map((skill) => (
             <span
-              key={skill}
+              key={skill.name}
               className="text-xs bg-blue-50 text-blue-700 border border-blue-200 rounded-full px-3 py-1"
             >
-              {skill}
+              {skill.name}
             </span>
           ))}
         </div>
