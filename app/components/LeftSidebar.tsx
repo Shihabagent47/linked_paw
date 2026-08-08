@@ -13,7 +13,7 @@ export default function LeftSidebar() {
             <Image src={ME.photo} alt={ME.name} fill className="object-cover" sizes="56px" />
           </div>
           <div className="mt-2">
-            <Link href={`/profile/${ME.id}`} className="font-semibold text-sm hover:underline block leading-snug">
+            <Link href={`/profile/${ME.id}`} className="font-semibold text-sm text-gray-500 hover:underline block leading-snug">
               {ME.name}
             </Link>
             <p className="text-xs text-gray-600 mt-0.5 leading-snug">{ME.title}</p>

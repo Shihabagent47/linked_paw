@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ME } from '@/app/lib/constants';
 
-function NavItem({ href, label, active, children }: { href: string; label: string; active?: boolean; children: ReactNode }) {
+function NavItem({ href, label, active, badge, children }: { href: string; label: string; active?: boolean; badge?: number; children: ReactNode }) {
   return (
     <Link
       href={href}
@@ -13,7 +13,14 @@ function NavItem({ href, label, active, children }: { href: string; label: strin
           : 'border-transparent text-gray-500 hover:text-black hover:border-gray-400'
       }`}
     >
-      {children}
+      <div className="relative">
+        {children}
+        {badge != null && badge > 0 && (
+          <span className="absolute -top-1 -right-2 min-w-[16px] h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center px-0.5">
+            {badge > 9 ? '9+' : badge}
+          </span>
+        )}
+      </div>
       <span className="text-xs">{label}</span>
     </Link>
   );
@@ -84,13 +91,13 @@ export default function Navbar() {
           <NavItem href="/" label="Home" active>
             <HomeIcon />
           </NavItem>
-          <NavItem href="/network" label="My Herd">
+          <NavItem href="/network" label="My Herd" badge={3}>
             <UsersIcon />
           </NavItem>
           <NavItem href="/jobs" label="Jobs">
             <BriefcaseIcon />
           </NavItem>
-          <NavItem href="/notifications" label="Alerts">
+          <NavItem href="/notifications" label="Alerts" badge={6}>
             <BellIcon />
           </NavItem>
 
