@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -21,6 +22,20 @@ function timeAgo(date: Date): string {
 
 type Props = { params: Promise<{ id: string }> };
 
+export function generateStaticParams() {
+    return jobs.map(j => ({ id: String(j.id) }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { id } = await params;
+    const job = jobs.find(j => j.id === Number(id));
+    if (!job) return { title: 'Job Not Found — LinkedPaw' };
+    return {
+        title: `${job.title} at ${job.company} | LinkedPaw Jobs`,
+        description: job.description.slice(0, 155),
+    };
+}
+
 export default async function JobDetailPage({ params }: Props) {
     const { id } = await params;
     const job = jobs.find(j => j.id === Number(id));
@@ -42,7 +57,7 @@ export default async function JobDetailPage({ params }: Props) {
                     <div className="flex-1 min-w-0 space-y-4">
 
                         {/* Job header card */}
-                        <div className="bg-white rounded-lg border border-[#e0dfdc] p-6">
+                        <div className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-6">
                             <div className="flex gap-4">
                                 <div
                                     className="shrink-0 w-16 h-16 rounded-lg flex items-center justify-center text-white font-bold text-2xl"
@@ -51,14 +66,14 @@ export default async function JobDetailPage({ params }: Props) {
                                     {job.company[0]}
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <h1 className="text-xl font-bold text-gray-900 leading-tight">{job.title}</h1>
-                                    <p className="text-sm text-gray-700 mt-0.5">{job.company}</p>
-                                    <p className="text-sm text-gray-500">{job.location}</p>
+                                    <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight">{job.title}</h1>
+                                    <p className="text-sm text-gray-700 dark:text-gray-300 mt-0.5">{job.company}</p>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">{job.location}</p>
                                     <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                                        <span className="text-xs bg-green-50 text-green-700 border border-green-200 rounded-full px-2 py-0.5 font-medium">
+                                        <span className="text-xs bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800 rounded-full px-2 py-0.5 font-medium">
                                             {job.species}
                                         </span>
-                                        <span className="text-xs text-gray-400">
+                                        <span className="text-xs text-gray-400 dark:text-gray-500">
                                             {timeAgo(job.postedAt)} · {job.applicants.toLocaleString()} applicants
                                         </span>
                                     </div>
@@ -69,50 +84,50 @@ export default async function JobDetailPage({ params }: Props) {
                                 <button className="flex-1 sm:flex-none sm:px-8 bg-[#0a66c2] hover:bg-[#004182] text-white text-sm font-semibold rounded-full py-2 transition-colors">
                                     Easy Apply
                                 </button>
-                                <button className="flex-1 sm:flex-none sm:px-8 border border-gray-400 text-gray-700 text-sm font-semibold rounded-full py-2 hover:border-gray-600 hover:bg-gray-50 transition-colors">
+                                <button className="flex-1 sm:flex-none sm:px-8 border border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm font-semibold rounded-full py-2 hover:border-gray-600 dark:hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                                     Save
                                 </button>
                             </div>
                         </div>
 
                         {/* About the role */}
-                        <div className="bg-white rounded-lg border border-[#e0dfdc] p-6">
-                            <h2 className="text-base font-semibold text-gray-900 mb-3">About the role</h2>
-                            <p className="text-sm text-gray-700 whitespace-pre-line leading-relaxed">{job.description}</p>
+                        <div className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-6">
+                            <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-3">About the role</h2>
+                            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-line leading-relaxed">{job.description}</p>
 
-                            <h2 className="text-base font-semibold text-gray-900 mt-6 mb-3">Requirements</h2>
+                            <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mt-6 mb-3">Requirements</h2>
                             <ul className="space-y-2">
                                 {job.requirements.map((req, i) => (
-                                    <li key={i} className="flex gap-2 text-sm text-gray-700">
+                                    <li key={i} className="flex gap-2 text-sm text-gray-700 dark:text-gray-300">
                                         <span className="mt-1 shrink-0 w-1.5 h-1.5 rounded-full bg-[#0a66c2]" />
                                         {req}
                                     </li>
                                 ))}
                             </ul>
 
-                            <div className="mt-6 p-4 bg-amber-50 border border-amber-100 rounded-lg">
-                                <p className="text-xs font-semibold text-amber-800 mb-0.5">Compensation</p>
-                                <p className="text-sm text-amber-900">{job.salary}</p>
+                            <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800 rounded-lg">
+                                <p className="text-xs font-semibold text-amber-800 dark:text-amber-400 mb-0.5">Compensation</p>
+                                <p className="text-sm text-amber-900 dark:text-amber-300">{job.salary}</p>
                             </div>
                         </div>
 
                         {/* Posted by */}
                         {poster && (
-                            <div className="bg-white rounded-lg border border-[#e0dfdc] p-4">
-                                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Posted by</p>
+                            <div className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-4">
+                                <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Posted by</p>
                                 <div className="flex items-center gap-3">
-                                    <div className="relative w-10 h-10 rounded-full overflow-hidden border border-gray-200 shrink-0">
+                                    <div className="relative w-10 h-10 rounded-full overflow-hidden border border-gray-200 dark:border-gray-600 shrink-0">
                                         <Image src={poster.photo} alt={poster.name} fill className="object-cover" sizes="40px" />
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <Link href={`/profile/${poster.id}`} className="text-sm font-semibold text-gray-900 hover:underline block truncate">
+                                        <Link href={`/profile/${poster.id}`} className="text-sm font-semibold text-gray-900 dark:text-gray-100 hover:underline block truncate">
                                             {poster.name}
                                         </Link>
-                                        <p className="text-xs text-gray-500 truncate">{poster.title}</p>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{poster.title}</p>
                                     </div>
                                     <Link
                                         href={`/profile/${poster.id}`}
-                                        className="text-xs font-semibold text-[#0a66c2] border border-[#0a66c2] rounded-full px-3 py-1 hover:bg-blue-50 transition-colors shrink-0"
+                                        className="text-xs font-semibold text-[#0a66c2] border border-[#0a66c2] rounded-full px-3 py-1 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors shrink-0"
                                     >
                                         View profile
                                     </Link>
@@ -122,11 +137,11 @@ export default async function JobDetailPage({ params }: Props) {
                     </div>
 
                     {/* Sidebar */}
-                    <aside className="w-[280px] shrink-0 space-y-3">
+                    <aside className="w-[280px] shrink-0 space-y-3 hidden lg:block">
 
                         {/* Similar jobs */}
-                        <div className="bg-white rounded-lg border border-[#e0dfdc] p-4">
-                            <h2 className="text-sm font-semibold text-gray-900 mb-3">
+                        <div className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-4">
+                            <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">
                                 {similar.length > 0 ? 'Similar roles' : 'Other open roles'}
                             </h2>
                             <div className="space-y-3">
@@ -136,31 +151,31 @@ export default async function JobDetailPage({ params }: Props) {
                             </div>
                             <Link
                                 href="/jobs"
-                                className="block mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-center text-gray-500 hover:text-black transition-colors"
+                                className="block mt-3 pt-3 border-t border-gray-100 dark:border-gray-700 text-xs font-semibold text-center text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
                             >
                                 See all jobs →
                             </Link>
                         </div>
 
                         {/* Job details widget */}
-                        <div className="bg-white rounded-lg border border-[#e0dfdc] p-4">
-                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Job details</p>
+                        <div className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-4">
+                            <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Job details</p>
                             <div className="space-y-2.5 text-xs">
                                 <div>
-                                    <p className="text-gray-400">Species</p>
-                                    <p className="font-medium text-gray-800 mt-0.5">{job.species}</p>
+                                    <p className="text-gray-400 dark:text-gray-500">Species</p>
+                                    <p className="font-medium text-gray-800 dark:text-gray-200 mt-0.5">{job.species}</p>
                                 </div>
                                 <div>
-                                    <p className="text-gray-400">Location</p>
-                                    <p className="font-medium text-gray-800 mt-0.5">{job.location}</p>
+                                    <p className="text-gray-400 dark:text-gray-500">Location</p>
+                                    <p className="font-medium text-gray-800 dark:text-gray-200 mt-0.5">{job.location}</p>
                                 </div>
                                 <div>
-                                    <p className="text-gray-400">Applicants</p>
-                                    <p className="font-medium text-gray-800 mt-0.5">{job.applicants.toLocaleString()}</p>
+                                    <p className="text-gray-400 dark:text-gray-500">Applicants</p>
+                                    <p className="font-medium text-gray-800 dark:text-gray-200 mt-0.5">{job.applicants.toLocaleString()}</p>
                                 </div>
                                 <div>
-                                    <p className="text-gray-400">Compensation</p>
-                                    <p className="font-medium text-gray-800 mt-0.5 leading-snug">{job.salary}</p>
+                                    <p className="text-gray-400 dark:text-gray-500">Compensation</p>
+                                    <p className="font-medium text-gray-800 dark:text-gray-200 mt-0.5 leading-snug">{job.salary}</p>
                                 </div>
                             </div>
                         </div>

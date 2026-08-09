@@ -44,9 +44,10 @@ export const posts: Post[] = [
         comments: [
             c(3, "Congratulations Leonard! Truly inspiring. We never doubted you."),
             c(7, "So well-deserved. Let's connect at the Savanna Summit next quarter!"),
+            c(5, "Eight simultaneous standing ovations from me. One per arm."),
         ],
         timestamp: new Date('2026-08-05'),
-        imageUrl: undefined,
+        imageUrl: 'https://loremflickr.com/800/450/lion,savanna/all?lock=101',
         reaction: [r(ReactionType.LIKE), r(ReactionType.LIKE), r(ReactionType.LOVE), r(ReactionType.LIKE), r(ReactionType.WOW)],
         shares: 47,
     },
@@ -56,7 +57,6 @@ export const posts: Post[] = [
         content: `A cub approached me this morning and asked: "How do you lead a pride?"\n\nI told them what my father told me, and his father before him:\n\n"You don't lead a pride. You ARE the pride."\n\nThey stared at me for 40 seconds and walked away. That's mentorship.\n\n#Leadership #WisdomUnderTheSun #MentorshipMatters`,
         comments: [
             c(9, "240 years of leadership experience tells me you are correct."),
-            c(10, "I would have made a decision faster. But yes."),
         ],
         timestamp: new Date('2026-07-28'),
         imageUrl: undefined,
@@ -70,9 +70,10 @@ export const posts: Post[] = [
         comments: [
             c(4, "Finally someone saying what we're all thinking."),
             c(2, "Respectfully disagree on point 4 but the rest tracks."),
+            c(7, "Screenshotting this. Point 3 is going directly into my keynote."),
         ],
         timestamp: new Date('2026-07-14'),
-        imageUrl: undefined,
+        imageUrl: 'https://loremflickr.com/800/450/savanna,sunset/all?lock=202',
         reaction: [r(ReactionType.LIKE), r(ReactionType.HAHA), r(ReactionType.HAHA), r(ReactionType.LIKE), r(ReactionType.LOVE), r(ReactionType.HAHA)],
         shares: 891,
     },
@@ -95,9 +96,7 @@ export const posts: Post[] = [
         id: 5,
         authorId: 2,
         content: `Hot take: slow is just fast people waiting for you.\n\nI don't have hot takes. I have terminal velocity takes.\n\nExcited to announce I'll be speaking at PredatorCon 2026 on "From 0 to 240: Building a Velocity-First Culture in Uncertain Thermal Conditions." Tickets going fast. (Like me.)\n\n#Speaker #PredatorCon #FalconEconomy #GoFaster`,
-        comments: [
-            c(6, "Booked. Already pivoted my schedule to attend."),
-        ],
+        comments: [],
         timestamp: new Date('2026-07-21'),
         imageUrl: undefined,
         reaction: [r(ReactionType.LIKE), r(ReactionType.LOVE), r(ReactionType.LIKE)],
@@ -112,6 +111,7 @@ export const posts: Post[] = [
         comments: [
             c(9, "300% is remarkable. I saw similar numbers in 1987."),
             c(1, "Congrats Olivia. The watering hole initiative was partly my idea as you may recall."),
+            c(7, "The 47-year relationship building comment landed. Forwarding to my entire flock."),
         ],
         timestamp: new Date('2026-08-03'),
         imageUrl: undefined,
@@ -124,7 +124,6 @@ export const posts: Post[] = [
         content: `Twenty years ago a young calf told me she'd never be a matriarch.\n\nI remembered that.\n\nToday she leads a herd of 400.\n\nI remembered that too.\n\nMentorship isn't about what you say. It's about what you remember saying later so you can post about it.\n\n#Mentorship #WomenInWildlife #HerdLeader #LongGameWins`,
         comments: [
             c(10, "This made me emotional. I made a swift decision to cry."),
-            c(4, "Taking a mindful pause to absorb this. Beautiful."),
         ],
         timestamp: new Date('2026-07-17'),
         imageUrl: undefined,
@@ -168,9 +167,10 @@ export const posts: Post[] = [
         comments: [
             c(2, "I respect the throughput but have you considered doing one thing really fast?"),
             c(6, "I pivoted to an 8-stream model last month. Different 8 streams than last week's."),
+            c(9, "I built seven revenue streams over 200 years. You did eight simultaneously. The future is here."),
         ],
         timestamp: new Date('2026-08-05'),
-        imageUrl: undefined,
+        imageUrl: 'https://loremflickr.com/800/450/ocean,underwater/all?lock=303',
         reaction: [r(ReactionType.LIKE), r(ReactionType.WOW), r(ReactionType.LOVE), r(ReactionType.LIKE), r(ReactionType.WOW)],
         shares: 734,
     },
@@ -180,7 +180,6 @@ export const posts: Post[] = [
         content: `Story time.\n\nIn 2021 a VC told me I'd never scale with 8 arms.\n\nToday I have 8 product lines, 8 revenue streams, and 8 separate therapy subscriptions.\n\nOne for each arm.\n\nThey said it couldn't be done. I did it with arms to spare.\n\n#FounderStory #OceanStartup #Rejection #GlowUp`,
         comments: [
             c(1, "Incredible. I would have fired that VC on the spot."),
-            c(4, "The therapy part resonates deeply. Mindfully."),
         ],
         timestamp: new Date('2026-07-25'),
         imageUrl: undefined,
@@ -206,9 +205,7 @@ export const posts: Post[] = [
         id: 13,
         authorId: 6,
         content: `I was an early adopter of AI before anyone called it AI.\n\nI was also an early skeptic of AI before anyone called it a bubble.\n\nAnd I was early to the "actually AI is fine" camp before the correction.\n\nPattern recognition? No. Pattern creation. There's a difference and I'll explain it in a framework I'm developing called C.H.A.N.G.E. (Completely Honest About Nothing, Generally Evolving).\n\nPre-register below.\n\n#ThoughtLeader #Visionary #EarlyAdopter #Consultant`,
-        comments: [
-            c(8, "I'm underground and even I've seen you pivot 4 times this quarter."),
-        ],
+        comments: [],
         timestamp: new Date('2026-07-11'),
         imageUrl: undefined,
         reaction: [r(ReactionType.HAHA), r(ReactionType.HAHA), r(ReactionType.LIKE)],
@@ -225,7 +222,7 @@ export const posts: Post[] = [
             c(9, "I attended this forum in 1994. Also good chips then."),
         ],
         timestamp: new Date('2026-08-03'),
-        imageUrl: undefined,
+        imageUrl: 'https://loremflickr.com/800/450/seagull,coast/all?lock=404',
         reaction: [r(ReactionType.HAHA), r(ReactionType.LIKE), r(ReactionType.HAHA), r(ReactionType.LIKE), r(ReactionType.HAHA)],
         shares: 319,
     },
@@ -235,7 +232,6 @@ export const posts: Post[] = [
         content: `Thrilled to be recognised as a LinkedPaw Top Voice in Swooping for the 3rd consecutive year.\n\nI didn't get here by waiting for opportunity. I spotted it from 60 meters, assessed trajectory, and committed.\n\nMost animals wait for the fish to come to them. I have never waited for anything in my life, including this award, which I nominated myself for.\n\nDM me for my keynote rates.\n\n#TopVoice #LinkedPaw #Swooping #NetworkingQueen`,
         comments: [
             c(2, "Fully deserved. Commitment at 60m is a skill set."),
-            c(5, "The self-nomination transparency is genuinely refreshing."),
         ],
         timestamp: new Date('2026-07-19'),
         imageUrl: undefined,
@@ -251,6 +247,7 @@ export const posts: Post[] = [
         comments: [
             c(4, "The silence part speaks to me on a spiritual level."),
             c(7, "I've sent you 11 connection requests. Still pending."),
+            c(6, "I've pivoted 6 times since you last replied to anyone. The underground has its advantages."),
         ],
         timestamp: new Date('2026-08-02'),
         imageUrl: undefined,
@@ -291,10 +288,9 @@ export const posts: Post[] = [
         content: `Everyone is talking about 5-year plans.\n\nCute.\n\nI'm on my 7th career. My current 50-year plan began in 1987 and is proceeding exactly on schedule.\n\nPatience isn't a virtue. It's a competitive advantage that 99% of animals physically cannot replicate because they don't live long enough.\n\nI do.\n\nOpen to advisory roles with a minimum 30-year engagement.\n\n#Advisory #LongGame #200YearCareer #Sustainable`,
         comments: [
             c(6, "A 50-year plan? I can barely commit to a strategy for 50 minutes."),
-            c(5, "Respect. Eight of my arms are impressed."),
         ],
         timestamp: new Date('2026-07-22'),
-        imageUrl: undefined,
+        imageUrl: 'https://loremflickr.com/800/450/tortoise,nature/all?lock=505',
         reaction: [r(ReactionType.WOW), r(ReactionType.LOVE), r(ReactionType.WOW), r(ReactionType.LIKE)],
         shares: 1876,
     },
@@ -307,6 +303,7 @@ export const posts: Post[] = [
         comments: [
             c(1, "Signed up. Whatever 'permanently changed' means I'm ready."),
             c(3, "Fiona I'd love to refer a few calves. Just want to confirm they'll be okay after?"),
+            c(9, "I made a decision once. In 1847. Still stands."),
         ],
         timestamp: new Date('2026-08-05'),
         imageUrl: undefined,
@@ -335,6 +332,8 @@ export const posts: Post[] = [
         comments: [
             c(7, "Sharing this with everyone I know. Immediately."),
             c(8, "The zebra story is doing something to me. Respect for sharing."),
+            c(4, "The zebra part is a masterclass in impermanence. Still processing it. Slowly."),
+            c(6, "Pivoted to a rejection-forward strategy based entirely on this post. Thank you."),
         ],
         timestamp: new Date('2026-07-07'),
         imageUrl: undefined,
@@ -360,7 +359,6 @@ export const posts: Post[] = [
         content: `I just want to say: the chip industry changed my life.\n\nNot the semiconductor chip. The potato chip.\n\nEvery great connection I've made — every partnership, every collab, every warm intro — started because someone left their food unattended near a harbour.\n\nOpportunity doesn't knock. It sits on a picnic bench at 1pm on a Tuesday.\n\nBe ready. Be bold. Be hungry.\n\n#OpportunityMindset #Networking #SalesStrategy #AlwaysBeConnecting`,
         comments: [
             c(5, "The picnic bench pipeline is criminally underrated."),
-            c(1, "Not sure this is replicable for my specific situation but I appreciate the energy."),
         ],
         timestamp: new Date('2026-07-15'),
         imageUrl: undefined,
@@ -374,6 +372,7 @@ export const posts: Post[] = [
         comments: [
             c(1, "Olivia I said the herd model was brilliant from day one. Just to clarify."),
             c(10, "A decisive statement. Respect."),
+            c(8, "I have 0 connections above ground and I remember all of them too."),
         ],
         timestamp: new Date('2026-08-06'),
         imageUrl: undefined,

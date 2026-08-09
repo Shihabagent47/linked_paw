@@ -2,16 +2,13 @@ import type { ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ME } from '@/app/lib/constants';
+import ThemeToggle from '@/app/components/ThemeToggle';
 
-function NavItem({ href, label, active, badge, children }: { href: string; label: string; active?: boolean; badge?: number; children: ReactNode }) {
+function NavItem({ href, label, badge, children }: { href: string; label: string; badge?: number; children: ReactNode }) {
   return (
     <Link
       href={href}
-      className={`flex flex-col items-center justify-center gap-0.5 px-3 h-full border-b-2 transition-colors min-w-[72px] ${
-        active
-          ? 'border-black text-black'
-          : 'border-transparent text-gray-500 hover:text-black hover:border-gray-400'
-      }`}
+      className="flex flex-col items-center justify-center gap-0.5 px-3 h-full border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:border-gray-400 dark:hover:border-gray-500 transition-colors min-w-[72px]"
     >
       <div className="relative">
         {children}
@@ -28,7 +25,7 @@ function NavItem({ href, label, active, badge, children }: { href: string; label
 
 function SearchIcon() {
   return (
-    <svg className="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+    <svg className="w-4 h-4 text-gray-500 dark:text-gray-400 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
     </svg>
   );
@@ -70,25 +67,27 @@ function BellIcon() {
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-[#e0dfdc] shadow-sm">
-      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center gap-4">
+    <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-[#e0dfdc] dark:border-gray-700 shadow-sm">
+      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center gap-3">
         <Link href="/" className="text-xl font-black text-[#0a66c2] shrink-0 tracking-tight">
           🐾 LinkedPaw
         </Link>
 
-        <div className="flex items-center bg-[#eef3f8] rounded-md px-3 h-9 gap-2 w-64">
+        <div className="flex items-center bg-[#eef3f8] dark:bg-gray-800 rounded-md px-3 h-9 gap-2 flex-1 max-w-xs sm:flex-none sm:w-64">
           <SearchIcon />
           <input
             type="text"
             placeholder="Search animals, jobs, or carrion..."
-            className="bg-transparent text-sm outline-none w-full text-gray-700 placeholder-gray-500"
+            className="bg-transparent text-sm outline-none w-full text-gray-700 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400"
           />
         </div>
 
         <div className="flex-1" />
 
+        <ThemeToggle />
+
         <nav className="hidden md:flex items-stretch h-14">
-          <NavItem href="/" label="Home" active>
+          <NavItem href="/" label="Home">
             <HomeIcon />
           </NavItem>
           <NavItem href="/network" label="My Herd" badge={3}>
@@ -101,18 +100,18 @@ export default function Navbar() {
             <BellIcon />
           </NavItem>
 
-          <div className="flex flex-col items-center justify-center gap-0.5 px-3 cursor-pointer text-gray-500 hover:text-black border-b-2 border-transparent hover:border-gray-400 transition-colors min-w-[72px]">
+          <div className="flex flex-col items-center justify-center gap-0.5 px-3 cursor-pointer text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white border-b-2 border-transparent hover:border-gray-400 dark:hover:border-gray-500 transition-colors min-w-[72px]">
             <div className="relative w-6 h-6 rounded-full overflow-hidden">
               <Image src={ME.photo} alt={ME.name} fill className="object-cover" sizes="24px" />
             </div>
             <span className="text-xs">Me ▾</span>
           </div>
 
-          <div className="w-px bg-gray-200 my-3 mx-1" />
+          <div className="w-px bg-gray-200 dark:bg-gray-700 my-3 mx-1" />
 
           <Link
             href="#"
-            className="flex flex-col items-center justify-center gap-0.5 px-3 border-b-2 border-transparent hover:bg-amber-50 transition-colors"
+            className="flex flex-col items-center justify-center gap-0.5 px-3 border-b-2 border-transparent hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors"
           >
             <span className="text-base leading-none">✨</span>
             <span className="text-xs text-amber-600 font-semibold whitespace-nowrap">PawPremium</span>

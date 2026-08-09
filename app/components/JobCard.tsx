@@ -22,7 +22,7 @@ export default function JobCard({ job, compact = false }: Props) {
     const color = logoColor(job.company);
 
     return (
-        <div className={`bg-white rounded-lg border border-[#e0dfdc] hover:shadow-md transition-shadow ${compact ? 'p-3' : 'p-4'}`}>
+        <div className={`bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 hover:shadow-md transition-shadow ${compact ? 'p-3' : 'p-4'}`}>
             <div className="flex gap-3">
                 {/* Company logo */}
                 <div
@@ -35,19 +35,19 @@ export default function JobCard({ job, compact = false }: Props) {
                 <div className="flex-1 min-w-0">
                     <Link
                         href={`/jobs/${job.id}`}
-                        className="font-semibold text-sm text-gray-900 hover:underline hover:text-[#0a66c2] leading-tight line-clamp-2 block"
+                        className="font-semibold text-sm text-gray-900 dark:text-gray-100 hover:underline hover:text-[#0a66c2] leading-tight line-clamp-2 block"
                     >
                         {job.title}
                     </Link>
-                    <p className="text-xs text-gray-600 mt-0.5 truncate">{job.company}</p>
-                    <p className="text-xs text-gray-400 truncate">{job.location}</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5 truncate">{job.company}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{job.location}</p>
 
                     {!compact && (
                         <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
-                            <span className="text-[10px] bg-green-50 text-green-700 border border-green-200 rounded-full px-2 py-0.5 font-medium">
+                            <span className="text-[10px] bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800 rounded-full px-2 py-0.5 font-medium">
                                 {job.species}
                             </span>
-                            <span className="text-xs text-gray-400">
+                            <span className="text-xs text-gray-400 dark:text-gray-500">
                                 {timeAgo(job.postedAt)} · {job.applicants.toLocaleString()} applicants
                             </span>
                         </div>
@@ -63,7 +63,7 @@ export default function JobCard({ job, compact = false }: Props) {
                     >
                         Easy Apply
                     </Link>
-                    <button className="px-4 text-xs font-semibold text-gray-600 border border-gray-300 rounded-full hover:border-gray-400 hover:bg-gray-50 transition-colors">
+                    <button className="px-4 text-xs font-semibold text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-full hover:border-gray-400 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                         Save
                     </button>
                 </div>
@@ -72,7 +72,7 @@ export default function JobCard({ job, compact = false }: Props) {
             {compact && (
                 <Link
                     href={`/jobs/${job.id}`}
-                    className="block mt-2 text-center text-xs font-semibold text-[#0a66c2] border border-[#0a66c2] rounded-full py-1 hover:bg-blue-50 transition-colors"
+                    className="block mt-2 text-center text-xs font-semibold text-[#0a66c2] border border-[#0a66c2] rounded-full py-1 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                 >
                     View job
                 </Link>

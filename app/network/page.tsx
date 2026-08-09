@@ -45,18 +45,18 @@ export default function NetworkPage() {
             <div className="max-w-5xl mx-auto px-4 py-5">
 
                 {/* Header */}
-                <div className="bg-white rounded-lg border border-[#e0dfdc] p-4 mb-4">
+                <div className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-4 mb-4">
                     <div className="flex items-start justify-between gap-4 flex-wrap">
                         <div>
-                            <h1 className="text-base font-bold text-gray-900">My Herd</h1>
-                            <p className="text-xs text-gray-500 mt-0.5">
+                            <h1 className="text-base font-bold text-gray-900 dark:text-gray-100">My Herd</h1>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                                 {connectedCount} connected
                                 {pendingCount > 0 && ` · ${pendingCount} pending`}
                                 {' '}· {ME.connections.toLocaleString()} total connections
                             </p>
                         </div>
-                        <div className="flex items-center gap-2 border border-gray-300 rounded-md px-3 h-9 w-full sm:w-64 focus-within:border-[#0a66c2] transition-colors">
-                            <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <div className="flex items-center gap-2 border border-gray-300 dark:border-gray-600 rounded-md px-3 h-9 w-full sm:w-64 focus-within:border-[#0a66c2] transition-colors">
+                            <svg className="w-4 h-4 text-gray-400 dark:text-gray-500 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                             </svg>
                             <input
@@ -64,7 +64,7 @@ export default function NetworkPage() {
                                 placeholder="Search animals..."
                                 value={query}
                                 onChange={e => setQuery(e.target.value)}
-                                className="flex-1 text-sm outline-none text-gray-800 placeholder-gray-400"
+                                className="flex-1 text-sm outline-none text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 bg-transparent"
                             />
                         </div>
                     </div>
@@ -79,7 +79,7 @@ export default function NetworkPage() {
                                     className={`text-xs font-semibold px-3 py-1.5 rounded-full border transition-colors ${
                                         speciesFilter === s
                                             ? 'bg-[#0a66c2] text-white border-[#0a66c2]'
-                                            : 'bg-white text-gray-600 border-gray-300 hover:border-[#0a66c2] hover:text-[#0a66c2]'
+                                            : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-[#0a66c2] hover:text-[#0a66c2]'
                                     }`}
                                 >
                                     {s}
@@ -89,7 +89,7 @@ export default function NetworkPage() {
                         <select
                             value={locationFilter}
                             onChange={e => setLocationFilter(e.target.value)}
-                            className="ml-auto text-xs border border-gray-300 rounded-md px-2 py-1.5 text-gray-600 outline-none focus:border-[#0a66c2] transition-colors"
+                            className="ml-auto text-xs border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1.5 text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 outline-none focus:border-[#0a66c2] transition-colors"
                         >
                             {ALL_LOCATIONS.map(l => (
                                 <option key={l} value={l}>{l}</option>
@@ -103,9 +103,9 @@ export default function NetworkPage() {
                     {/* Connection grid */}
                     <div className="flex-1 min-w-0">
                         {filtered.length === 0 ? (
-                            <div className="bg-white rounded-lg border border-[#e0dfdc] p-8 text-center">
-                                <p className="text-sm font-semibold text-gray-700">No animals found.</p>
-                                <p className="text-xs text-gray-400 mt-1">Try different filters — they may be in a different biome.</p>
+                            <div className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-8 text-center">
+                                <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">No animals found.</p>
+                                <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Try different filters — they may be in a different biome.</p>
                             </div>
                         ) : (
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -122,42 +122,42 @@ export default function NetworkPage() {
                     </div>
 
                     {/* Sidebar */}
-                    <aside className="w-[240px] shrink-0 space-y-3">
+                    <aside className="w-[240px] shrink-0 space-y-3 hidden lg:block">
 
                         {/* Network stats */}
-                        <div className="bg-white rounded-lg border border-[#e0dfdc] p-4">
-                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Your network</p>
+                        <div className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-4">
+                            <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Your network</p>
                             <div className="space-y-3">
                                 <div className="flex justify-between items-center">
-                                    <p className="text-xs text-gray-600">Total connections</p>
+                                    <p className="text-xs text-gray-600 dark:text-gray-400">Total connections</p>
                                     <p className="text-sm font-bold text-[#0a66c2]">{ME.connections.toLocaleString()}</p>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <p className="text-xs text-gray-600">Connected here</p>
+                                    <p className="text-xs text-gray-600 dark:text-gray-400">Connected here</p>
                                     <p className="text-sm font-bold text-[#057642]">{connectedCount}</p>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <p className="text-xs text-gray-600">Pending requests</p>
+                                    <p className="text-xs text-gray-600 dark:text-gray-400">Pending requests</p>
                                     <p className="text-sm font-bold text-amber-600">{pendingCount}</p>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <p className="text-xs text-gray-600">Animals in network</p>
-                                    <p className="text-sm font-bold text-gray-800">{others.length}</p>
+                                    <p className="text-xs text-gray-600 dark:text-gray-400">Animals in network</p>
+                                    <p className="text-sm font-bold text-gray-800 dark:text-gray-200">{others.length}</p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Grow your herd tips */}
-                        <div className="bg-white rounded-lg border border-[#e0dfdc] p-4">
-                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Grow your herd</p>
+                        <div className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-4">
+                            <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Grow your herd</p>
                             <div className="space-y-3">
                                 {[
                                     { tip: 'Connect with animals from your species', action: 'Filter by species' },
                                     { tip: 'Message connections you haven\'t spoken to in 3–200 years', action: 'View connections' },
                                     { tip: 'Animals with 5000+ connections get 10x more prey opportunities', action: 'Get tips' },
                                 ].map(({ tip, action }) => (
-                                    <div key={tip} className="border-b border-gray-100 pb-3 last:border-0 last:pb-0">
-                                        <p className="text-xs text-gray-600 leading-snug">{tip}</p>
+                                    <div key={tip} className="border-b border-gray-100 dark:border-gray-700 pb-3 last:border-0 last:pb-0">
+                                        <p className="text-xs text-gray-600 dark:text-gray-400 leading-snug">{tip}</p>
                                         <button className="text-xs text-[#0a66c2] font-semibold mt-1 hover:underline">{action} →</button>
                                     </div>
                                 ))}
@@ -165,12 +165,12 @@ export default function NetworkPage() {
                         </div>
 
                         {/* PawPremium upsell */}
-                        <div className="bg-white rounded-lg border border-[#e0dfdc] p-4">
-                            <p className="text-xs font-semibold text-amber-700 mb-1">✨ PawPremium</p>
-                            <p className="text-xs text-gray-500 leading-relaxed mb-3">
+                        <div className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-4">
+                            <p className="text-xs font-semibold text-amber-700 dark:text-amber-500 mb-1">✨ PawPremium</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mb-3">
                                 See who viewed your profile. Send unlimited InPaw messages. Priority in the migration.
                             </p>
-                            <button className="w-full text-xs font-semibold text-amber-700 border border-amber-400 rounded-full py-1.5 hover:bg-amber-50 transition-colors">
+                            <button className="w-full text-xs font-semibold text-amber-700 dark:text-amber-500 border border-amber-400 dark:border-amber-600 rounded-full py-1.5 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors">
                                 Try free for 1 moon
                             </button>
                         </div>

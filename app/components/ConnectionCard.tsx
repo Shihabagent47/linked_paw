@@ -31,25 +31,25 @@ export default function ConnectionCard({ animal, status, onConnect }: Props) {
     const banner = BANNERS[animal.id % BANNERS.length];
 
     return (
-        <div className="bg-white rounded-lg border border-[#e0dfdc] overflow-hidden flex flex-col hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 overflow-hidden flex flex-col hover:shadow-md transition-shadow">
             {/* Banner */}
             <div className={`h-14 bg-gradient-to-r ${banner}`} />
 
             {/* Avatar (overlaps banner) */}
             <div className="px-3 -mt-7 pb-3 flex flex-col flex-1">
-                <div className="relative w-14 h-14 rounded-full border-2 border-white overflow-hidden mb-2 bg-white">
+                <div className="relative w-14 h-14 rounded-full border-2 border-white dark:border-gray-800 overflow-hidden mb-2 bg-white dark:bg-gray-700">
                     <Image src={animal.photo} alt={animal.name} fill className="object-cover" sizes="56px" />
                 </div>
 
                 <Link
                     href={`/profile/${animal.id}`}
-                    className="text-sm font-semibold text-gray-900 hover:underline leading-tight line-clamp-1"
+                    className="text-sm font-semibold text-gray-900 dark:text-gray-100 hover:underline leading-tight line-clamp-1"
                 >
                     {animal.name}
                 </Link>
-                <p className="text-xs text-gray-500 leading-snug mt-0.5 line-clamp-2">{animal.title}</p>
-                <p className="text-xs text-gray-400 mt-1 truncate">{animal.location}</p>
-                <p className="text-xs text-gray-400 mt-0.5">
+                <p className="text-xs text-gray-500 dark:text-gray-400 leading-snug mt-0.5 line-clamp-2">{animal.title}</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 mt-1 truncate">{animal.location}</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
                     <span className="text-[#0a66c2] font-medium">{mutualCount(animal.id)}</span> mutual connections
                 </p>
 
@@ -57,7 +57,7 @@ export default function ConnectionCard({ animal, status, onConnect }: Props) {
                     {status === 'none' && (
                         <button
                             onClick={onConnect}
-                            className="w-full text-xs font-semibold text-[#0a66c2] border border-[#0a66c2] rounded-full py-1.5 hover:bg-blue-50 transition-colors"
+                            className="w-full text-xs font-semibold text-[#0a66c2] border border-[#0a66c2] rounded-full py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                         >
                             + Connect
                         </button>
@@ -65,7 +65,7 @@ export default function ConnectionCard({ animal, status, onConnect }: Props) {
                     {status === 'pending' && (
                         <button
                             onClick={onConnect}
-                            className="w-full text-xs font-semibold text-gray-500 border border-gray-300 rounded-full py-1.5 hover:bg-gray-50 transition-colors"
+                            className="w-full text-xs font-semibold text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-full py-1.5 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                         >
                             Pending ▾
                         </button>
