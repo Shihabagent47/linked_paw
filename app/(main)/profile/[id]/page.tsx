@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentUser } from '@/app/lib/auth'
 import ProfileActions from './ProfileActions'
-import type { Profile, Skill, Experience, Education } from '@/app/lib/types'
+import type { Profile, Skill, Experience, Education, ConnectionStatus } from '@/app/lib/types'
 
 const BANNER_GRADIENTS = [
   'from-amber-400 to-orange-500',
@@ -152,6 +152,23 @@ export default async function ProfilePage({ params }: Props) {
     .or(`requester_id.eq.${raw.id},receiver_id.eq.${raw.id}`)
     .eq('status', 'connected')
 
+  // Connection status between current user and this profile
+  let connectionStatus: ConnectionStatus = 'none'
+  let connectionId: string | null = null
+  if (currentUser && !isOwner) {
+    const { data: conn } = await supabase
+      .from('connections')
+      .select('id, requester_id, status')
+      .or(`and(requester_id.eq.${currentUser.id},receiver_id.eq.${raw.id}),and(requester_id.eq.${raw.id},receiver_id.eq.${currentUser.id})`)
+      .maybeSingle()
+    if (conn) {
+      connectionId = conn.id
+      if (conn.status === 'connected') connectionStatus = 'connected'
+      else if (conn.requester_id === currentUser.id) connectionStatus = 'pending_sent'
+      else connectionStatus = 'pending_received'
+    }
+  }
+
   // Alpha-only weekly view count
   let weeklyViews: number | null = null
   if (isOwner && raw.is_alpha) {
@@ -219,7 +236,12 @@ export default async function ProfilePage({ params }: Props) {
                       </span>
                     )}
                   </div>
-                  <ProfileActions profile={profile} isOwner={isOwner} />
+                  <ProfileActions
+                    profile={profile}
+                    isOwner={isOwner}
+                    connectionStatus={connectionStatus}
+                    connectionId={connectionId}
+                  />
                 </div>
 
                 <div>

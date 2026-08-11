@@ -1,13 +1,25 @@
 import Navbar from '@/app/components/Navbar'
 import MobileNav from '@/app/components/MobileNav'
 import { getCurrentUser } from '@/app/lib/auth'
+import { createClient } from '@/lib/supabase/server'
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
   const user = await getCurrentUser()
 
+  let pendingCount = 0
+  if (user && process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    const supabase = await createClient()
+    const { count } = await supabase
+      .from('connections')
+      .select('*', { count: 'exact', head: true })
+      .eq('receiver_id', user.id)
+      .eq('status', 'pending')
+    pendingCount = count ?? 0
+  }
+
   return (
     <div className="flex flex-col min-h-screen pb-14 md:pb-0">
-      <Navbar user={user} />
+      <Navbar user={user} pendingCount={pendingCount} />
       {children}
       <footer className="mt-auto py-4 border-t border-gray-200 dark:border-gray-700">
         <div className="max-w-5xl mx-auto px-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400">

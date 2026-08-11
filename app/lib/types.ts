@@ -62,7 +62,41 @@ export type Post = {
   created_at: string;
 };
 
+export type FeedPost = {
+  id: string;
+  author_id: string;
+  author: {
+    id: string;
+    display_name: string;
+    username: string;
+    title: string | null;
+    avatar_url: string | null;
+    species: string;
+    is_alpha: boolean;
+  };
+  content: string;
+  image_url: string | null;
+  view_count: number;
+  reaction_counts: ReactionCounts;
+  comment_count: number;
+  my_reaction: ReactionType | null;
+  created_at: string;
+};
+
 export type ConnectionStatus = 'none' | 'pending_sent' | 'pending_received' | 'connected';
+
+export type NetworkProfile = {
+  id: string;
+  display_name: string;
+  username: string;
+  title: string | null;
+  avatar_url: string | null;
+  species: string;
+  location: string | null;
+  is_alpha: boolean;
+  connection_status: ConnectionStatus;
+  connection_id: string | null;
+};
 
 export type Connection = {
   id: string;
