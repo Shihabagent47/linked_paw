@@ -1,16 +1,17 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { animals } from '@/app/data/animals';
-import { ME } from '@/app/lib/constants';
+import Image from 'next/image'
+import Link from 'next/link'
+import { animals } from '@/app/data/animals'
+import { getCurrentUser } from '@/app/lib/auth'
 
 const NEWS = [
   { headline: 'Migration Season Disrupts Remote Work Arrangements', time: '2h ago' },
   { headline: 'Watering Hole Startup Raises $4M Seed Round, Promises Disruption', time: '4h ago' },
   { headline: "Is 'Strategic Stillness' Just Napping? Experts Weigh In", time: '6h ago' },
-];
+]
 
-export default function RightSidebar() {
-  const suggestions = animals.filter((a) => a.id !== ME.id);
+export default async function RightSidebar() {
+  const user = await getCurrentUser()
+  const suggestions = animals.filter((a) => String(a.id) !== user?.id).slice(0, 5)
 
   return (
     <aside className="w-[300px] shrink-0 space-y-2">
@@ -62,5 +63,5 @@ export default function RightSidebar() {
         </button>
       </div>
     </aside>
-  );
+  )
 }

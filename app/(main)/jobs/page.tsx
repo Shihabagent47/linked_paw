@@ -2,14 +2,9 @@
 
 import { useState } from 'react';
 import { jobs } from '@/app/data/jobs';
-import { ME } from '@/app/lib/constants';
 import JobCard from '@/app/components/JobCard';
 
 const ALL_SPECIES = ['All', ...Array.from(new Set(jobs.map(j => j.species))).sort()];
-
-const recommendedJobs = jobs
-    .filter(j => j.species.toLowerCase().includes(ME.species.toLowerCase().split(' ')[0]))
-    .slice(0, 4);
 
 export default function JobsPage() {
     const [filter, setFilter] = useState('All');
@@ -97,9 +92,9 @@ export default function JobsPage() {
                         {/* Jobs you may like */}
                         <div className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-4">
                             <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Jobs you may like</h2>
-                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 mb-3">Based on your species: {ME.species}</p>
+                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 mb-3">Based on your profile</p>
                             <div className="space-y-3">
-                                {(recommendedJobs.length > 0 ? recommendedJobs : jobs.slice(0, 3)).map(job => (
+                                {jobs.slice(0, 3).map(job => (
                                     <JobCard key={job.id} job={job} compact />
                                 ))}
                             </div>

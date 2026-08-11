@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import LeftSidebar from '@/app/components/LeftSidebar';
 import RightSidebar from '@/app/components/RightSidebar';
-import { ME } from '@/app/lib/constants';
+import { getCurrentUser } from '@/app/lib/auth';
 import PostCard from "@/app/components/PostCard";
 import {posts} from "@/app/data/post";
 
@@ -12,7 +12,9 @@ const COMPOSER_ACTIONS = [
   { emoji: '📊', label: 'Metrics' },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const user = await getCurrentUser();
+
   return (
     <main className="flex-1">
       <div className="max-w-5xl mx-auto px-4 py-5">
@@ -26,11 +28,17 @@ export default function Home() {
             {/* Post composer */}
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-3">
               <div className="flex gap-3 items-center">
-                <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0 border border-gray-200 dark:border-gray-600">
-                  <Image src={ME.photo} alt={ME.name} fill className="object-cover" sizes="48px" />
+                <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0 border border-gray-200 dark:border-gray-600 bg-gray-200 dark:bg-gray-700">
+                  {user?.avatar_url ? (
+                    <Image src={user.avatar_url} alt={user.display_name} fill className="object-cover" sizes="48px" />
+                  ) : (
+                    <span className="flex items-center justify-center w-full h-full text-lg font-bold text-gray-600 dark:text-gray-300">
+                      {user?.display_name?.[0]?.toUpperCase() ?? '?'}
+                    </span>
+                  )}
                 </div>
                 <button className="flex-1 text-left text-sm text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
-                  Share your latest hunt, {ME.name.split(' ')[0]}...
+                  Share your latest hunt, {user?.display_name?.split(' ')[0] ?? 'friend'}...
                 </button>
               </div>
               <div className="flex gap-1 mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">

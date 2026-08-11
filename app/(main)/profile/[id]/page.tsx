@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { animals, type Animal, type Experience, type Education, type Skill } from '@/app/data/animals';
-import { ME } from '@/app/lib/constants';
+import { getCurrentUser } from '@/app/lib/auth';
 
 const BANNER_GRADIENTS = [
   'from-amber-400 to-orange-500',
@@ -144,7 +144,8 @@ export default async function ProfilePage({ params }: Props) {
   const animal = animals.find((a) => a.id === Number(id));
   if (!animal) notFound();
 
-  const isMe = animal.id === ME.id;
+  const currentUser = await getCurrentUser();
+  const isMe = currentUser?.id === String(animal.id);
   const bannerClass = BANNER_GRADIENTS[(animal.id - 1) % BANNER_GRADIENTS.length];
 
   return (

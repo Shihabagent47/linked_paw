@@ -1,13 +1,28 @@
-import type { CurrentUser } from '@/app/lib/types';
-import { mockProfiles } from '@/app/lib/mock/profiles';
+import { cache } from 'react'
+import type { CurrentUser } from '@/app/lib/types'
 
-export const MOCK_USER_ID = '1';
+export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return null
+  }
 
-export function getCurrentUser(): CurrentUser {
-  const profile = mockProfiles.find((p) => p.id === MOCK_USER_ID)!;
+  const { createClient } = await import('@/lib/supabase/server')
+  const supabase = await createClient()
+
+  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  if (authError || !user) return null
+
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .single()
+
+  if (profileError || !profile) return null
+
   return {
     ...profile,
-    email: 'leonard@savannadynamics.com',
+    email: user.email ?? '',
     subscription: null,
-  };
-}
+  }
+})

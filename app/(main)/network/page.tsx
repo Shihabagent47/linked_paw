@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { animals } from '@/app/data/animals';
-import { ME } from '@/app/lib/constants';
 import ConnectionCard, { ConnectionStatus } from '@/app/components/ConnectionCard';
 
-const others = animals.filter(a => a.id !== ME.id);
+const others = animals;
 const ALL_SPECIES = ['All', ...Array.from(new Set(others.map(a => a.species))).sort()];
 const ALL_LOCATIONS = ['Anywhere', ...Array.from(new Set(others.map(a => a.location.split(',')[1]?.trim() ?? a.location))).sort()];
 
@@ -52,7 +51,7 @@ export default function NetworkPage() {
                             <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                                 {connectedCount} connected
                                 {pendingCount > 0 && ` · ${pendingCount} pending`}
-                                {' '}· {ME.connections.toLocaleString()} total connections
+                                {' '}· {connectedCount} total connections
                             </p>
                         </div>
                         <div className="flex items-center gap-2 border border-gray-300 dark:border-gray-600 rounded-md px-3 h-9 w-full sm:w-64 focus-within:border-[#0a66c2] transition-colors">
@@ -130,7 +129,7 @@ export default function NetworkPage() {
                             <div className="space-y-3">
                                 <div className="flex justify-between items-center">
                                     <p className="text-xs text-gray-600 dark:text-gray-400">Total connections</p>
-                                    <p className="text-sm font-bold text-[#0a66c2]">{ME.connections.toLocaleString()}</p>
+                                    <p className="text-sm font-bold text-[#0a66c2]">{connectedCount}</p>
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <p className="text-xs text-gray-600 dark:text-gray-400">Connected here</p>
