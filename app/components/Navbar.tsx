@@ -70,7 +70,7 @@ function BellIcon() {
   )
 }
 
-export default function Navbar({ user, pendingCount = 0 }: { user: CurrentUser | null; pendingCount?: number }) {
+export default function Navbar({ user, pendingCount = 0, unreadNotifCount = 0 }: { user: CurrentUser | null; pendingCount?: number; unreadNotifCount?: number }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const router = useRouter()
 
@@ -111,7 +111,7 @@ export default function Navbar({ user, pendingCount = 0 }: { user: CurrentUser |
           <NavItem href="/jobs" label="Jobs">
             <BriefcaseIcon />
           </NavItem>
-          <NavItem href="/notifications" label="Alerts">
+          <NavItem href="/notifications" label="Alerts" badge={unreadNotifCount}>
             <BellIcon />
           </NavItem>
 

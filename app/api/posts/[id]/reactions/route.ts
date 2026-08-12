@@ -17,6 +17,16 @@ export async function PUT(req: NextRequest, { params }: Params) {
     .upsert({ post_id, user_id: user.id, type }, { onConflict: 'post_id,user_id' })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  // Notify post author (non-blocking, skip own posts)
+  supabase.from('posts').select('author_id').eq('id', post_id).single().then(({ data: post }) => {
+    if (post && post.author_id !== user.id) {
+      supabase.from('notifications').insert({
+        user_id: post.author_id, actor_id: user.id, type: 'reaction', entity_id: post_id,
+      }).then(() => {})
+    }
+  })
+
   return NextResponse.json({ ok: true })
 }
 
