@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { ConnectionActionSchema } from '@/lib/validations'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -9,7 +10,12 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { action } = await req.json() // 'accept' | 'decline'
+  const body = await req.json()
+  const parsed = ConnectionActionSchema.safeParse(body)
+  if (!parsed.success) {
+    return NextResponse.json({ error: 'action must be "accept" or "decline"' }, { status: 400 })
+  }
+  const { action } = parsed.data
 
   const { data: conn } = await supabase
     .from('connections')
@@ -26,26 +32,21 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     return NextResponse.json({ ok: true, status: 'declined' })
   }
 
-  if (action === 'accept') {
-    const { error } = await supabase
-      .from('connections')
-      .update({ status: 'connected' })
-      .eq('id', id)
+  const { error } = await supabase
+    .from('connections')
+    .update({ status: 'connected' })
+    .eq('id', id)
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-    // Notify requester (non-blocking)
-    supabase.from('notifications').insert({
-      user_id: conn.requester_id,
-      actor_id: user.id,
-      type: 'connection_accepted',
-      entity_id: conn.id,
-    }).then(() => {})
+  supabase.from('notifications').insert({
+    user_id: conn.requester_id,
+    actor_id: user.id,
+    type: 'connection_accepted',
+    entity_id: conn.id,
+  }).then(() => {})
 
-    return NextResponse.json({ ok: true, status: 'connected' })
-  }
-
-  return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
+  return NextResponse.json({ ok: true, status: 'connected' })
 }
 
 export async function DELETE(req: NextRequest, { params }: Params) {
@@ -62,7 +63,6 @@ export async function DELETE(req: NextRequest, { params }: Params) {
 
   if (!conn) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
-  // Only requester can withdraw; either party can remove a connected relationship
   const isMember = conn.requester_id === user.id || conn.receiver_id === user.id
   if (!isMember) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 

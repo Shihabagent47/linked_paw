@@ -39,8 +39,8 @@ export default async function MainLayout({ children }: { children: React.ReactNo
           <a href="/about" className="hover:underline hover:text-gray-800 dark:hover:text-gray-200">About</a>
           <a href="#" className="hover:underline hover:text-gray-800 dark:hover:text-gray-200">Accessibility</a>
           <a href="#" className="hover:underline hover:text-gray-800 dark:hover:text-gray-200">Help Centre (Watering Hole)</a>
-          <a href="#" className="hover:underline hover:text-gray-800 dark:hover:text-gray-200">Privacy & Territory Terms</a>
-          <a href="#" className="hover:underline hover:text-gray-800 dark:hover:text-gray-200">Cookie Policy</a>
+          <a href="/legal/privacy" className="hover:underline hover:text-gray-800 dark:hover:text-gray-200">Privacy & Territory Terms</a>
+          <a href="/legal/terms" className="hover:underline hover:text-gray-800 dark:hover:text-gray-200">Terms of Service</a>
           <a href="#" className="hover:underline hover:text-gray-800 dark:hover:text-gray-200">Advertise to Prey</a>
           <span className="ml-auto">LinkedPaw Corporation © 2025</span>
         </div>

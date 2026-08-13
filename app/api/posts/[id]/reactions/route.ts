@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { ReactionSchema } from '@/lib/validations'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -9,16 +10,18 @@ export async function PUT(req: NextRequest, { params }: Params) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { type } = await req.json()
-  if (!type) return NextResponse.json({ error: 'type required' }, { status: 400 })
+  const body = await req.json()
+  const parsed = ReactionSchema.safeParse(body)
+  if (!parsed.success) {
+    return NextResponse.json({ error: 'Invalid reaction type' }, { status: 400 })
+  }
 
   const { error } = await supabase
     .from('reactions')
-    .upsert({ post_id, user_id: user.id, type }, { onConflict: 'post_id,user_id' })
+    .upsert({ post_id, user_id: user.id, type: parsed.data.type }, { onConflict: 'post_id,user_id' })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  // Notify post author (non-blocking, skip own posts)
   supabase.from('posts').select('author_id').eq('id', post_id).single().then(({ data: post }) => {
     if (post && post.author_id !== user.id) {
       supabase.from('notifications').insert({

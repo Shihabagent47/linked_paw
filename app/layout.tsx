@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { ThemeProvider } from '@/app/components/ThemeProvider'
 
@@ -16,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'LinkedPaw — Professional Networking for the Animal Kingdom',
   description:
-    'Where apex predators connect, humble-brag, and apply for positions they\'re wildly overqualified for.',
+    "Where apex predators connect, humble-brag, and apply for positions they're wildly overqualified for.",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-full flex flex-col bg-[#f3f2ef] dark:bg-gray-900">
         <ThemeProvider>{children}</ThemeProvider>
+        <Analytics />
       </body>
     </html>
   )

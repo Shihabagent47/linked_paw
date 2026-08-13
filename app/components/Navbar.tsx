@@ -81,6 +81,13 @@ export default function Navbar({ user, pendingCount = 0, unreadNotifCount = 0 }:
     router.refresh()
   }
 
+  async function handlePortal() {
+    setMenuOpen(false)
+    const res = await fetch('/api/stripe/portal', { method: 'POST' })
+    const data = await res.json() as { url?: string }
+    if (data.url) window.location.href = data.url
+  }
+
   return (
     <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-[#e0dfdc] dark:border-gray-700 shadow-sm">
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center gap-3">
@@ -147,13 +154,12 @@ export default function Navbar({ user, pendingCount = 0, unreadNotifCount = 0 }:
                     View profile
                   </Link>
                   {user.is_alpha && (
-                    <Link
-                      href="#"
-                      onClick={() => setMenuOpen(false)}
-                      className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                    <button
+                      onClick={handlePortal}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                     >
                       Manage subscription
-                    </Link>
+                    </button>
                   )}
                   <div className="border-t border-gray-100 dark:border-gray-700 mt-1 pt-1">
                     <button

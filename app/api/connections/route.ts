@@ -1,17 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { ConnectionSchema } from '@/lib/validations'
+import { rateLimit, getIp } from '@/lib/rate-limit'
 
 export async function POST(req: NextRequest) {
+  if (!rateLimit(`connect:${getIp(req)}`, 10, 60 * 1000)) {
+    return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
+  }
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { receiver_id } = await req.json()
-  if (!receiver_id || receiver_id === user.id) {
-    return NextResponse.json({ error: 'Invalid receiver' }, { status: 400 })
+  const body = await req.json()
+  const parsed = ConnectionSchema.safeParse(body)
+  if (!parsed.success) {
+    return NextResponse.json({ error: 'Invalid receiver ID' }, { status: 400 })
+  }
+  const { receiver_id } = parsed.data
+
+  if (receiver_id === user.id) {
+    return NextResponse.json({ error: 'Cannot connect with yourself' }, { status: 400 })
   }
 
-  // Fetch requester profile for alpha check + cap
   const { data: profile } = await supabase
     .from('profiles')
     .select('is_alpha')
@@ -42,7 +53,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  // Notify receiver (non-blocking)
   supabase.from('notifications').insert({
     user_id: receiver_id,
     actor_id: user.id,

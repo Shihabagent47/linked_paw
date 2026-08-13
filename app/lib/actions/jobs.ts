@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { JobSchema } from '@/lib/validations'
 
 export async function applyToJob(jobId: string): Promise<{ ok: boolean; error?: string }> {
   const supabase = await createClient()
@@ -17,7 +18,6 @@ export async function applyToJob(jobId: string): Promise<{ ok: boolean; error?: 
     return { ok: false, error: error.message }
   }
 
-  // Notify the job poster (non-blocking)
   supabase.from('jobs').select('posted_by').eq('id', jobId).single().then(({ data: job }) => {
     if (job?.posted_by && job.posted_by !== user.id) {
       supabase.from('notifications').insert({
@@ -37,20 +37,24 @@ export async function postJob(formData: FormData): Promise<void> {
   const { data: profile } = await supabase.from('profiles').select('is_alpha').eq('id', user.id).single()
   if (!profile?.is_alpha) redirect('/upgrade')
 
-  const title = (formData.get('title') as string)?.trim()
-  const company = (formData.get('company') as string)?.trim()
-  const location = (formData.get('location') as string)?.trim()
-  const description = (formData.get('description') as string)?.trim()
   const requirementsRaw = (formData.get('requirements') as string) ?? ''
   const requirements = requirementsRaw.split('\n').map(r => r.trim()).filter(Boolean)
-  const salary = (formData.get('salary') as string)?.trim() || null
-  const species_tag = (formData.get('species_tag') as string)?.trim() || null
 
-  if (!title || !company || !location || !description) return
+  const parsed = JobSchema.safeParse({
+    title: (formData.get('title') as string)?.trim(),
+    company: (formData.get('company') as string)?.trim(),
+    location: (formData.get('location') as string)?.trim(),
+    description: (formData.get('description') as string)?.trim(),
+    requirements,
+    salary: (formData.get('salary') as string)?.trim() || undefined,
+    species_tag: (formData.get('species_tag') as string)?.trim() || undefined,
+  })
+
+  if (!parsed.success) return
 
   const { data, error } = await supabase
     .from('jobs')
-    .insert({ posted_by: user.id, title, company, location, description, requirements, salary, species_tag })
+    .insert({ posted_by: user.id, ...parsed.data, salary: parsed.data.salary ?? null, species_tag: parsed.data.species_tag ?? null })
     .select('id')
     .single()
 

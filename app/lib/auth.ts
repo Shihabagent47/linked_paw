@@ -20,9 +20,15 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
 
   if (profileError || !profile) return null
 
+  const { data: subscription } = await supabase
+    .from('subscriptions')
+    .select('*')
+    .eq('user_id', user.id)
+    .maybeSingle()
+
   return {
     ...profile,
     email: user.email ?? '',
-    subscription: null,
+    subscription: subscription ?? null,
   }
 })
