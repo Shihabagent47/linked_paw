@@ -181,6 +181,37 @@ export default async function ProfilePage({ params }: Props) {
     weeklyViews = count ?? 0
   }
 
+  // Owner-only: job posts + applications
+  let myJobs: { id: string; title: string; company: string; location: string; applicant_count: number; created_at: string }[] = []
+  let myApplications: { id: string; created_at: string; job: { id: string; title: string; company: string; location: string } | null }[] = []
+  if (isOwner) {
+    const [{ data: jobsData }, { data: appsData }] = await Promise.all([
+      supabase
+        .from('jobs')
+        .select('id, title, company, location, created_at, job_applications(count)')
+        .eq('posted_by', raw.id)
+        .order('created_at', { ascending: false }),
+      supabase
+        .from('job_applications')
+        .select('id, created_at, job:jobs(id, title, company, location)')
+        .eq('user_id', raw.id)
+        .order('created_at', { ascending: false }),
+    ])
+    myJobs = (jobsData ?? []).map(j => ({
+      id: j.id,
+      title: j.title,
+      company: j.company,
+      location: j.location,
+      created_at: j.created_at,
+      applicant_count: Array.isArray(j.job_applications) ? (j.job_applications[0] as { count: number })?.count ?? 0 : 0,
+    }))
+    myApplications = (appsData ?? []).map(a => ({
+      id: a.id,
+      created_at: a.created_at,
+      job: Array.isArray(a.job) ? (a.job[0] ?? null) : a.job,
+    }))
+  }
+
   // Sidebar: other profiles
   const { data: others } = await supabase
     .from('profiles')
@@ -300,6 +331,47 @@ export default async function ProfilePage({ params }: Props) {
             <ExperienceSection experience={experience} />
             <EducationSection education={education} />
             <SkillsSection skills={skills} />
+
+            {/* My Job Posts (owner + alpha only) */}
+            {isOwner && profile.is_alpha && myJobs.length > 0 && (
+              <section className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-5">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">My Job Posts</h2>
+                  <Link href="/jobs/new" className="text-xs font-semibold text-[#0a66c2] hover:underline">+ Post new</Link>
+                </div>
+                <div className="space-y-3">
+                  {myJobs.map(j => (
+                    <Link key={j.id} href={`/jobs/${j.id}`} className="flex items-center justify-between gap-3 p-3 rounded-lg border border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{j.title}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{j.company} · {j.location}</p>
+                      </div>
+                      <span className="shrink-0 text-xs font-semibold text-[#0a66c2] bg-blue-50 dark:bg-blue-900/20 rounded-full px-2.5 py-1">
+                        {j.applicant_count} applicant{j.applicant_count !== 1 ? 's' : ''}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* My Applications (owner only) */}
+            {isOwner && myApplications.length > 0 && (
+              <section className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-5">
+                <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">My Applications</h2>
+                <div className="space-y-3">
+                  {myApplications.map(a => a.job && (
+                    <Link key={a.id} href={`/jobs/${a.job.id}`} className="flex items-center justify-between gap-3 p-3 rounded-lg border border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{a.job.title}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{a.job.company} · {a.job.location}</p>
+                      </div>
+                      <span className="shrink-0 text-xs font-semibold text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20 rounded-full px-2.5 py-1">Applied</span>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
 
           {/* Sidebar */}
