@@ -3,6 +3,9 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 const AUTH_PATHS = ['/login', '/signup', '/callback', '/onboarding']
 
+// Routes guests can browse freely — no login required
+const PUBLIC_PATHS = ['/', '/about', '/legal']
+
 export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
@@ -34,9 +37,10 @@ export async function proxy(request: NextRequest) {
 
   const path = request.nextUrl.pathname
   const isAuthPath = AUTH_PATHS.some((p) => path.startsWith(p))
+  const isPublicPath = PUBLIC_PATHS.some((p) => path === p || path.startsWith(p + '/'))
 
   // Unauthenticated user hitting a protected route → /login
-  if (!user && !isAuthPath && path !== '/about') {
+  if (!user && !isAuthPath && !isPublicPath) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 

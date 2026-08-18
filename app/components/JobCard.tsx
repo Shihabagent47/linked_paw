@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Job } from '@/app/data/jobs';
+import { Job } from '@/app/lib/types';
 
 const LOGO_COLORS = ['#0a66c2', '#e66c00', '#057642', '#7c3aed', '#b91c1c', '#0891b2', '#be185d', '#92400e'];
 

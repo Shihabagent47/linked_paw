@@ -176,7 +176,31 @@ export default function Feed({ initialPosts, currentUserId }: Props) {
         </div>
       )}
 
-      {nextCursor && (
+      {!currentUserId && posts.length >= 100 ? (
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-[#e0dfdc] dark:border-gray-700 p-8 text-center space-y-4">
+          <div className="text-3xl">🐾</div>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+            You&apos;ve explored 100 posts
+          </h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xs mx-auto">
+            Join the pride to keep going — post, react, connect, and find your next opportunity.
+          </p>
+          <div className="flex gap-3 justify-center pt-1">
+            <a
+              href="/signup"
+              className="px-5 py-2 rounded-full bg-[#0a66c2] text-white text-sm font-semibold hover:bg-[#004182] transition-colors"
+            >
+              Join free
+            </a>
+            <a
+              href="/login"
+              className="px-5 py-2 rounded-full border border-[#0a66c2] text-[#0a66c2] text-sm font-semibold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+            >
+              Sign in
+            </a>
+          </div>
+        </div>
+      ) : nextCursor ? (
         <div className="flex justify-center pt-2 pb-4">
           <button
             onClick={loadMore}
@@ -186,7 +210,7 @@ export default function Feed({ initialPosts, currentUserId }: Props) {
             {loading ? 'Loading…' : 'Load more posts'}
           </button>
         </div>
-      )}
+      ) : null}
     </div>
   )
 }
