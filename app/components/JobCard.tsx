@@ -44,11 +44,13 @@ export default function JobCard({ job, compact = false }: Props) {
 
                     {!compact && (
                         <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
-                            <span className="text-[10px] bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800 rounded-full px-2 py-0.5 font-medium">
-                                {job.species}
-                            </span>
+                            {job.species_tag && (
+                              <span className="text-[10px] bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800 rounded-full px-2 py-0.5 font-medium">
+                                  {job.species_tag}
+                              </span>
+                            )}
                             <span className="text-xs text-gray-400 dark:text-gray-500">
-                                {timeAgo(job.postedAt)} · {job.applicants.toLocaleString()} applicants
+                                {timeAgo(new Date(job.created_at))} · {job.applicants_count.toLocaleString()} applicants
                             </span>
                         </div>
                     )}
